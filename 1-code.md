@@ -2,11 +2,12 @@
 
 ## Overview
 
-Create python3 virtual environment and install Flask:
+Create python3 virtual environment and install Flask, also pull down the json file we'll work with:
 ```sh
 $ cd ~/
 $ python3 -m venv myapi
 $ cd ~/myapi
+$ wget https://<redacted>/tech_assess.json
 $ source bin/activate
 
 (myapi) $ pip3 install flask
@@ -45,7 +46,6 @@ def tech_assess():
         with open('./tech_assess.json', 'r') as tech_assess_json:
             tech_assess_data = json.load(tech_assess_json)
         return jsonify(tech_assess_data), 200, {'Content-Type': 'application/json; charset=utf-8'}
-
 ```
 
 Run the app, this binds it to http://localhost:5555/:
@@ -86,6 +86,25 @@ $ curl -H "Content-Type: application/json" -X GET http://localhost:5555/tech_ass
 {"tech":{"return_value":"1337"}}
 ```
 
+**Note about JSON returned:** 
+
+The code for tech_assess (GET) route returns the whole object, but if we only want to return the value we could just replace the following line (last line of the code):
+
+```python
+        return jsonify(tech_assess_data), 200, {'Content-Type': 'application/json; charset=utf-8'}
+```
+
+With:
+```python
+        return jsonify(current_value=tech_assess_data["tech"]["return_value"]), 200, {'Content-Type': 'application/json; charset=utf-8'}
+```
+
+Then we'd get the following:
+```sh
+$ curl -H "Content-Type: application/json" -X GET http://localhost:5555/tech_assess
+{"current_value":"12345"}
+```
+
 ### POST /tech_assess
 
 Overwrites value of key called `return_value` in file `tech_assess.json`. This results in `GET /tech_assess` returning the new value previously written.
@@ -100,3 +119,5 @@ $ curl -d '{"value":"12345"}' -H "Content-Type: application/json" -X POST http:/
 $ curl -H "Content-Type: application/json" -X GET http://localhost:5555/tech_assess 
 {"tech":{"return_value":"12345"}}
 ```
+
+**Note:** Similar to the note in the above section, we could modify the json payload for what is returned after the POST.
