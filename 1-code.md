@@ -1,5 +1,7 @@
 # Code
 
+See related files [here](https://github.com/davekznza/challenge/tree/main/code)
+
 ## Overview
 
 Create python3 virtual environment and install Flask, also pull down the json file we'll work with:
