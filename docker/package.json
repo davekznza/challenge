@@ -1,0 +1,12 @@
+{
+  "name": "cowsay",
+  "version": "1.0.0",
+  "description": "Cowsay Moooo...",
+  "author": "dave <redacted>",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+  }
+}
